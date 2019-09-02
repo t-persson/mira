@@ -11,6 +11,7 @@ import graphene
 from flask import Flask
 from flask_graphql import GraphQLView
 from mira.backend.schemas.query import Query
+from mira.backend.schemas.mutation import Mutation
 from mira.backend.models import init_db
 
 __author__ = "Tobias Persson"
@@ -70,10 +71,11 @@ def setup_logging(loglevel):
 
 
 app = Flask(__name__)
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutation)
 app.add_url_rule(
     '/graphql',
-    view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
+    view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True)
+)
 
 
 @app.teardown_appcontext

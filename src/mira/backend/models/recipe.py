@@ -1,6 +1,8 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
-from mira.backend.database import Base
+from ..database import Base, db_session
+from .ingredient import ModelIngredient
+from .tag import ModelTag
 
 
 ingredient_association_table = Table("ingredient_association", Base.metadata,
@@ -27,11 +29,11 @@ class ModelRecipe(Base):
                         backref="recipe")
     portions = Column('portions', Integer)
 
-    def __init__(self, name, ingredients, steps, description, author, tags, portions):
+    def __init__(self, name, ingredient_id, steps, description, author, tag_id, portions):
         self.name = name
-        self.ingredients = ingredients
+        self.ingredients = db_session.query(ModelIngredient).filter(ModelIngredient.id.in_(ingredient_id)).all()
         self.steps = steps
         self.description = description
         self.author = author
-        self.tags = tags
+        self.tags =  db_session.query(ModelTag).filter(ModelTag.id.in_(tag_id)).all()
         self.portions = portions

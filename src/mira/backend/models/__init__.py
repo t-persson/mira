@@ -5,17 +5,23 @@ from .tag import ModelTag
 
 
 def init_db():
-    from mira.backend.database import db_session, engine
+    import os
+    from mira.backend.database import db_session, engine, db_path
     from mira.backend.database import Base
+    os.remove(db_path)
     Base.metadata.create_all(engine)
 
     liter = ModelMeasuredIn("l")
     kilo = ModelMeasuredIn("kg")
 
-    tomat = ModelIngredient("tomato", 1, kilo, None)
-    biff = ModelIngredient("biff", 5, kilo, None)
-    molk = ModelIngredient("milk", 20, liter, None)
-    knurf = ModelIngredient("test", 100, liter, None)
+    db_session.add(liter)
+    db_session.add(kilo)
+    db_session.commit()
+
+    tomat = ModelIngredient("tomato", 1, kilo.id)
+    biff = ModelIngredient("biff", 5, kilo.id)
+    molk = ModelIngredient("milk", 20, liter.id)
+    knurf = ModelIngredient("test", 100, liter.id)
 
     veg = ModelTag("vegetarian")
     boss = ModelTag("boss")
@@ -30,8 +36,7 @@ def init_db():
         1
     )
 
-    db_session.add(liter)
-    db_session.add(kilo)
+
     db_session.add(tomat)
     db_session.add(biff)
     db_session.add(molk)

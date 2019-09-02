@@ -1,5 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, ForeignKey, Integer, String, Float
 from mira.backend.database import Base
 
 
@@ -10,11 +9,8 @@ class ModelIngredient(Base):
     name = Column('name', String)
     amount = Column('amount', Float)
     measured_in_id = Column(Integer, ForeignKey("measured_in.id"))
-    measured_in = relationship("ModelMeasuredIn", backref="ingredient")
-    best_before = Column('best_before', DateTime, nullable=True)
 
-    def __init__(self, name, amount, measured_in, best_before):
+    def __init__(self, name, amount, measured_in_id):
         self.name = name
         self.amount = amount
-        self.measured_in = measured_in
-        self.best_before = best_before
+        self.measured_in_id = measured_in_id
