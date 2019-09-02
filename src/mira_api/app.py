@@ -4,15 +4,9 @@ import argparse
 import sys
 import logging
 
-from mira import __version__
-from mira.backend.database import db_session
-
-import graphene
-from flask import Flask
-from flask_graphql import GraphQLView
-from mira.backend.schemas.query import Query
-from mira.backend.schemas.mutation import Mutation
-from mira.backend.models import init_db
+from mira_api import __version__
+from mira_api.models import init_db
+from mira_api.api import APP
 
 __author__ = "Tobias Persson"
 __copyright__ = "Tobias Persson"
@@ -70,19 +64,6 @@ def setup_logging(loglevel):
                         format=logformat, datefmt="%Y-%m-%d %H:%M:%S")
 
 
-app = Flask(__name__)
-schema = graphene.Schema(query=Query, mutation=Mutation)
-app.add_url_rule(
-    '/graphql',
-    view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True)
-)
-
-
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
-
-
 def main(args):
     """Main entry point allowing external calls
 
@@ -94,7 +75,7 @@ def main(args):
     if args.init:
         init_db()
     else:
-        app.run(threaded=True, debug=True)
+        APP.run(threaded=True, debug=True)
     _logger.info("Script ends here")
 
 

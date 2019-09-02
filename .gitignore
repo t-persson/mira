@@ -47,4 +47,8 @@ cover/*
 MANIFEST
 
 # Per-project virtualenvs
-.venv*/
+venv
+node_modules
+package-lock.json
+yarn.lock
+yarn-error.log
