@@ -8,7 +8,8 @@ def init_db():
     import os
     from mira.backend.database import db_session, engine, db_path
     from mira.backend.database import Base
-    os.remove(db_path)
+    if os.path.exists(db_path):
+        os.remove(db_path)
     Base.metadata.create_all(engine)
 
     liter = ModelMeasuredIn("l")
@@ -25,23 +26,24 @@ def init_db():
 
     veg = ModelTag("vegetarian")
     boss = ModelTag("boss")
-
-    receptet = ModelRecipe(
-        "Beef with tomato and milk",
-        [tomat, biff, molk],
-        "1. Put beef and tomato in pan\n2. Pour milk.",
-        "This is a description of the recipe",
-        "Receptias",
-        [boss],
-        1
-    )
-
-
     db_session.add(tomat)
     db_session.add(biff)
     db_session.add(molk)
     db_session.add(knurf)
     db_session.add(veg)
     db_session.add(boss)
+    db_session.commit()
+
+    receptet = ModelRecipe(
+        "Beef with tomato and milk",
+        [tomat.id, biff.id, molk.id],
+        "1. Put beef and tomato in pan\n2. Pour milk.",
+        "This is a description of the recipe",
+        "Receptias",
+        [boss.id],
+        1
+    )
+
+
     db_session.add(receptet)
     db_session.commit()
