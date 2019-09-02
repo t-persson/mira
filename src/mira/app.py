@@ -1,48 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-This is a skeleton file that can serve as a starting point for a Python
-console script. To run this script uncomment the following lines in the
-[options.entry_points] section in setup.cfg:
-
-    console_scripts =
-         fibonacci = mira.skeleton:run
-
-Then run `python setup.py install` which will install the command `fibonacci`
-inside your current environment.
-Besides console scripts, the header (i.e. until _logger...) of this file can
-also be used as template for Python modules.
-
-Note: This skeleton file can be safely removed if not needed!
-"""
-
 import argparse
 import sys
 import logging
 
 from mira import __version__
+from mira.backend.database import db_session
 
-__author__ = "PhoeniX"
-__copyright__ = "PhoeniX"
+import graphene
+from flask import Flask
+from flask_graphql import GraphQLView
+from mira.backend.schemas.query import Query
+from mira.backend.models import init_db
+
+__author__ = "Tobias Persson"
+__copyright__ = "Tobias Persson"
 __license__ = "mit"
 
 _logger = logging.getLogger(__name__)
-
-
-def fib(n):
-    """Fibonacci example function
-
-    Args:
-      n (int): integer
-
-    Returns:
-      int: n-th Fibonacci number
-    """
-    assert n > 0
-    a, b = 1, 1
-    for i in range(n-1):
-        a, b = b, a+b
-    return a
 
 
 def parse_args(args):
@@ -55,16 +30,17 @@ def parse_args(args):
       :obj:`argparse.Namespace`: command line parameters namespace
     """
     parser = argparse.ArgumentParser(
-        description="Just a Fibonnaci demonstration")
+        description="Mira")
+    parser.add_argument(
+        '--init',
+        '-i',
+        action='store_true',
+        default=False
+    )
     parser.add_argument(
         '--version',
         action='version',
         version='mira {ver}'.format(ver=__version__))
-    parser.add_argument(
-        dest="n",
-        help="n-th Fibonacci number",
-        type=int,
-        metavar="INT")
     parser.add_argument(
         '-v',
         '--verbose',
@@ -93,6 +69,18 @@ def setup_logging(loglevel):
                         format=logformat, datefmt="%Y-%m-%d %H:%M:%S")
 
 
+app = Flask(__name__)
+schema = graphene.Schema(query=Query)
+app.add_url_rule(
+    '/graphql',
+    view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
+
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
+
+
 def main(args):
     """Main entry point allowing external calls
 
@@ -101,8 +89,10 @@ def main(args):
     """
     args = parse_args(args)
     setup_logging(args.loglevel)
-    _logger.debug("Starting crazy calculations...")
-    print("The {}-th Fibonacci number is {}".format(args.n, fib(args.n)))
+    if args.init:
+        init_db()
+    else:
+        app.run(threaded=True, debug=True)
     _logger.info("Script ends here")
 
 

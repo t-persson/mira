@@ -2,14 +2,13 @@
 mira
 ====
 
-
-Add a short description here!
-
+Recipe database for assisting in creating weekly menus and figuring out what to eat.
 
 Description
 ===========
 
-A longer description of your project goes here...
+Having problems creating a new weekly menu? This website will assist in this endeavour by creating a weekly menu based on your preferences.
+You can also store ingredients from your fridge and have the tool generate what you can make from your current ingredients.
 
 
 Note
