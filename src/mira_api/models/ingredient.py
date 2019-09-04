@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, Float
-from mira.backend.database import Base
+from ..database import Base
 
 
 class ModelIngredient(Base):
