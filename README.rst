@@ -47,10 +47,10 @@ Start the webserver
 .. code-block::
 
  cd src
- python -m mira_api.app -i
+ python -m mira_api.app
 
-Install Node requirements.
---------------------------
+Start the frontend
+------------------
 
 First make sure nodejs & yarn is installed
 
