@@ -6,8 +6,8 @@ from .tag import ModelTag
 
 def init_db():
     import os
-    from mira_api import db_session, engine, db_path
-    from mira_api import Base
+    from ..database import db_session, engine, db_path
+    from ..database import Base
     if os.path.exists(db_path):
         os.remove(db_path)
     Base.metadata.create_all(engine)
