@@ -1,0 +1,11 @@
+
+.limit {
+    width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+li {
+  list-style: list-style-type !important;
+}

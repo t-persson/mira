@@ -10,7 +10,7 @@ class ModelMeasuredIn(Base):
     id = Column('id', Integer, primary_key=True)
     measurement = Column('measurement', String, unique=True)
 
-    ingredientList = relationship(ModelIngredient, backref='measuredIn')
+    # ingredientList = relationship(ModelIngredient, backref='measuredIn')
 
     def __init__(self, measurement):
         self.measurement = measurement

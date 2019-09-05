@@ -3,12 +3,13 @@ import graphene
 from ..database import db_session
 from ..models import ModelRecipe
 from ..lib.utils import input_to_dictionary
+# from .ingredient import Ingredient
+from importlib import import_module
 
 
 class RecipeAttributes:
 
     name = graphene.String(description="Name of Recipe")
-    ingredient_id = graphene.List(graphene.ID)
     steps = graphene.String(description="Steps to take to finish this recipe")
     description = graphene.String(description="Description of the recipe")
     author = graphene.String(description="The author of this recipe")
@@ -18,9 +19,17 @@ class RecipeAttributes:
 
 class Recipe(SQLAlchemyObjectType, RecipeAttributes):
 
+    ingredients = graphene.List(lambda: import_module('.ingredient', "mira_api.schemas").Ingredient)
+
+    @graphene.resolve_only_args
+    def resolve_ingredients(self):
+        print(self.ingredients)
+        return [ingredient.ingredient for ingredient in self.ingredients]
+
     class Meta:
         model = ModelRecipe
         interfaces = (graphene.relay.Node,)
+
 
 
 class CreateRecipeInput(graphene.InputObjectType, RecipeAttributes):
