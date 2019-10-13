@@ -30,8 +30,6 @@ class Ingredient(SQLAlchemyObjectType, IngredientAttributes):
 
     @graphene.resolve_only_args
     def resolve_measured_in(self):
-        print(dir(self))
-        print(self.recipes)
         return db_session.query(IngredientAssociation) \
             .filter(IngredientAssociation.ingredient_id==self.id) \
             .first() \

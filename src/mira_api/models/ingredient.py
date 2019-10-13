@@ -8,7 +8,7 @@ class ModelIngredient(Base):
     __tablename__ = "ingredient"
 
     id = Column('id', Integer, primary_key=True)
-    name = Column('name', String)
+    name = Column('name', String, unique=True)
     recipes = relationship("IngredientAssociation", back_populates="ingredient")
 
     # amount = Column('amount', Float)

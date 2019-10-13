@@ -1,7 +1,7 @@
 from graphene_sqlalchemy import SQLAlchemyObjectType
 import graphene
 from ..database import db_session
-from ..models import ModelRecipe
+from ..models import ModelRecipe, ModelTag, ModelIngredient, IngredientAssociation
 from ..lib.utils import input_to_dictionary
 # from .ingredient import Ingredient
 from importlib import import_module
@@ -14,6 +14,7 @@ class RecipeAttributes:
     description = graphene.String(description="Description of the recipe")
     author = graphene.String(description="The author of this recipe")
     tag_id = graphene.List(graphene.ID)
+    ingredient_id = graphene.List(graphene.ID)
     portions = graphene.Int(description="How many portions does this recipe produce")
 
 
@@ -23,7 +24,6 @@ class Recipe(SQLAlchemyObjectType, RecipeAttributes):
 
     @graphene.resolve_only_args
     def resolve_ingredients(self):
-        print(self.ingredients)
         return [ingredient.ingredient for ingredient in self.ingredients]
 
     class Meta:
@@ -43,9 +43,21 @@ class CreateRecipe(graphene.Mutation):
         input = CreateRecipeInput(required=True)
 
     def mutate(self, info, input):
-        data = input_to_dictionary(input)
+        # data = input_to_dictionary(input)
+        data = input
+        tags = data.pop("tag_id")
+        ingredients = data.pop("ingredient_id")
+        print(ingredients)
 
         recipe = ModelRecipe(**data)
+        for tag_id in tags:
+            recipe.tags.append(db_session.query(ModelTag).filter(ModelTag.name == tag_id).first())
+        for ingredient_id in ingredients:
+            ingredient = db_session.query(ModelIngredient).filter(ModelIngredient.name == ingredient_id).first()
+            recipe.ingredients.append(
+                db_session.query(IngredientAssociation).filter(IngredientAssociation.ingredient_id == ingredient.id).first()
+            )
+
         db_session.add(recipe)
         db_session.commit()
         return CreateRecipe(recipe=recipe)
