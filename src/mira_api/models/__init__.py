@@ -17,7 +17,7 @@ def __init_korvgratang(db_session):
                                     ("milk", 0.4, liter),
                                     ("white_pepper", 0.001, liter))
     recipe = ModelRecipe(
-        "Korvgratäng",
+        "Korvgratang",
         ("Put oven on 250c. Cut Broccoli to smaller pieces\n"
          "Boil water with salt and boil the broccoli a couple of minutes. Put broccoli in an oven pan.\n"
          "Cut the falusausage into smaller pieces. Put them on top of the broccoli.\n"
@@ -28,7 +28,7 @@ def __init_korvgratang(db_session):
          "Pour the cheese sauce on the broccoli and falusausage\n"
          "Put into oven at 250C for about 10 minutes\n"
          "Serve with boiled rice, bulgur or pasta."),
-        ("Korvgratäng is a tasty and simple recipe with falusausage, broccoli and a simple cheese sauce."
+        ("Korvgratang is a tasty and simple recipe with falusausage, broccoli and a simple cheese sauce."
          " Cheese sauce can be purchased if you want to save time, but tastes better when homemade."),
         "Tobias Persson",
         5
@@ -61,7 +61,7 @@ def __init_fiskfile(db_session):
     )
 
     recipe = ModelRecipe(
-        "Ugnsbakad fiskfilé i kokossås",
+        "Ugnsbakad fiskfile i kokossas",
         ("Oil an oven pan.\n"
          "Add the fish.\n"
          "Cut paprika and tomato and add on top of the fish.\n"

@@ -11,20 +11,21 @@ import { makeStyles } from '@material-ui/core/styles';
 
 
 const CREATE_RECIPE = gql`
-    mutation CreateRecipe($name: String!, $ingredient_id: List!, $steps: String!,
-                          $description: String!, $author: String!, $tag_id: List!,
-                          $portions: Int!) {
-        createRecipe(name: $name, ingredient_id: $ingredient_id, steps: $steps,
-                     description: $description, author: $author, tag_id: $tag_id,
-                     portions: $portions) {
-            id
-            name
-            ingredient_id
+    mutation CreateRecipe($name: String!, $steps: String!, $tag_id: [String!],
+                          $description: String!, $author: String!,
+                          $portions: Int!, $ingredient_id: [String!]) {
+        createRecipe(input: {name: $name, steps: $steps, tagId: $tag_id,
+                     description: $description, author: $author,
+                     portions: $portions, ingredientId: $ingredient_id}) {
+				recipe{
+            name 
             steps
             description
-            author
-            tag_id
+            author 
             portions
+						tagId
+						ingredientId
+					}
         }
     }
 `;
@@ -94,14 +95,14 @@ function Home() {
         description: "",
         author: "",
         tag_id: [],
-        portions: ""
+        portions: 0
     });
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
 
     return (
-        <form className={classes.container} noValidate autoComplete="off">
+					<form className={classes.container} noValidate autoComplete="off" onSubmit={e => {e.preventDefault(); console.log(values, values.author, values.ingredient_id, values.portions); addRecipe({ variables: {name: values.name, ingredient_id: values.ingredient_id, author: values.author, steps: values.steps, portions: values.portions, tag_id: values.tag_id, description: values.description}}) }}>
             <TextField
                 id="name"
                 label="Name"
@@ -167,8 +168,8 @@ function Home() {
                   ))}
                 </Select>
             </FormControl>
-
-         </form>
+						<button type="submit">Save</button>
+			</form>
     );
 }
 
