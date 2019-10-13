@@ -14,7 +14,7 @@ class RecipeAttributes:
     description = graphene.String(description="Description of the recipe")
     author = graphene.String(description="The author of this recipe")
     tag_id = graphene.List(graphene.String)
-    ingredient_id = graphene.List(graphene.ID)
+    ingredient_id = graphene.List(graphene.String)
     portions = graphene.Int(description="How many portions does this recipe produce")
 
 
