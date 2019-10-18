@@ -17,15 +17,15 @@ const CREATE_RECIPE = gql`
         createRecipe(input: {name: $name, steps: $steps, tagId: $tag_id,
                      description: $description, author: $author,
                      portions: $portions, ingredientId: $ingredient_id}) {
-				recipe{
-            name 
-            steps
-            description
-            author 
-            portions
-						tagId
-						ingredientId
-					}
+            recipe {
+                name
+                steps
+                description
+                author
+                portions
+                tagId
+                ingredientId
+            }
         }
     }
 `;
@@ -84,9 +84,9 @@ const faking_it = [
   },
 ];
 
-function Home() {
+function Add() {
     const classes = useStyles();
-    const [addRecipe, {data}] = useMutation(CREATE_RECIPE);
+    const [addRecipe] = useMutation(CREATE_RECIPE);
 
     const [values, setValues] = React.useState({
         name: "",
@@ -102,7 +102,7 @@ function Home() {
     };
 
     return (
-					<form className={classes.container} noValidate autoComplete="off" onSubmit={e => {e.preventDefault(); console.log(values, values.author, values.ingredient_id, values.portions); addRecipe({ variables: {name: values.name, ingredient_id: values.ingredient_id, author: values.author, steps: values.steps, portions: values.portions, tag_id: values.tag_id, description: values.description}}) }}>
+            <form className={classes.container} noValidate autoComplete="off" onSubmit={e => {e.preventDefault(); addRecipe({ variables: {name: values.name, ingredient_id: values.ingredient_id, author: values.author, steps: values.steps, portions: values.portions, tag_id: values.tag_id, description: values.description}}) }}>
             <TextField
                 id="name"
                 label="Name"
@@ -168,9 +168,9 @@ function Home() {
                   ))}
                 </Select>
             </FormControl>
-						<button type="submit">Save</button>
+            <button type="submit">Save</button>
 			</form>
     );
 }
 
-export default Home
+export default Add
