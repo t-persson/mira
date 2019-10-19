@@ -1,5 +1,7 @@
 export default {
-    home: "/",
-    recipes: "/recipes",
-    recipe: "/recipes/:id"
+    recipes: "/",
+    recipe: "/recipes/:id",
+    api: "/api",
+    support: "/support",
+    addRecipe: "/add"
 }
