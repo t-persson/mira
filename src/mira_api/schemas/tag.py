@@ -3,6 +3,7 @@ import graphene
 from ..database import db_session
 from ..models import ModelTag
 from ..lib.utils import input_to_dictionary
+from flask_jwt_extended import jwt_required
 
 
 class TagAttributes:
@@ -26,6 +27,7 @@ class CreateTag(graphene.Mutation):
     class Arguments:
         input = CreateTagInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
         data = input_to_dictionary(input)
 
@@ -46,6 +48,7 @@ class UpdateTag(graphene.Mutation):
     class Arguments:
         input = UpdateTagInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
         data = input_to_dictionary(input)
 

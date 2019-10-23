@@ -3,6 +3,7 @@ import graphene
 from ..database import db_session
 from ..models import ModelMeasuredIn
 from ..lib.utils import input_to_dictionary
+from flask_jwt_extended import jwt_required
 
 
 class MeasuredInAttributes:
@@ -26,6 +27,7 @@ class CreateMeasuredIn(graphene.Mutation):
     class Arguments:
         input = CreateMeasuredInInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
         data = input_to_dictionary(input)
 
@@ -45,6 +47,7 @@ class UpdateMeasuredIn(graphene.Mutation):
     class Arguments:
         input = UpdateMeasuredInInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
         data = input_to_dictionary(input)
 

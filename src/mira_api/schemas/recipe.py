@@ -3,8 +3,8 @@ import graphene
 from ..database import db_session
 from ..models import ModelRecipe, ModelTag, ModelIngredient, IngredientAssociation
 from ..lib.utils import input_to_dictionary
-# from .ingredient import Ingredient
 from importlib import import_module
+from flask_jwt_extended import jwt_required
 
 
 class RecipeAttributes:
@@ -41,12 +41,11 @@ class CreateRecipe(graphene.Mutation):
     class Arguments:
         input = CreateRecipeInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
-        # data = input_to_dictionary(input)
         data = input
         tags = data.pop("tag_id")
         ingredients = data.pop("ingredient_id")
-        print(ingredients)
 
         recipe = ModelRecipe(**data)
         for tag_id in tags:
@@ -72,6 +71,7 @@ class UpdateRecipe(graphene.Mutation):
     class Arguments:
         input = CreateRecipeInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
         data = input_to_dictionary(input)
 

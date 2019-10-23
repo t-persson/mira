@@ -3,8 +3,8 @@ import graphene
 from ..database import db_session
 from ..models import ModelIngredient, IngredientAssociation
 from ..lib.utils import input_to_dictionary
-# from .recipe import Recipe
 from importlib import import_module
+from flask_jwt_extended import jwt_required
 
 
 class IngredientAttributes:
@@ -50,6 +50,7 @@ class CreateIngredient(graphene.Mutation):
     class Arguments:
         input = CreateIngredientInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
         data = input_to_dictionary(input)
 
@@ -69,6 +70,7 @@ class UpdateIngredient(graphene.Mutation):
     class Arguments:
         input = UpdateIngredientInput(required=True)
 
+    @jwt_required
     def mutate(self, info, input):
         data = input_to_dictionary(input)
 

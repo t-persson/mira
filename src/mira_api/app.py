@@ -75,7 +75,7 @@ def main(args):
     if args.init:
         init_db()
     else:
-        APP.run(threaded=True, debug=True)
+        APP.run(threaded=True, debug=True, host="0.0.0.0")
     _logger.info("Script ends here")
 
 
