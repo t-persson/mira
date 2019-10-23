@@ -19,6 +19,6 @@ class User(Base):
     def __init__(self, email, password, admin=False):
         self.email = email
         salt = bcrypt.gensalt()
-        self.password = bcrypt.hashpw(password.encode("UTF-8"), salt)  # .decode()
+        self.password = bcrypt.hashpw(password.encode("UTF-8"), salt)
         self.registered_on = datetime.datetime.now()
         self.admin = admin
