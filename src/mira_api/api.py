@@ -21,13 +21,6 @@ JWT = JWTManager(APP)
 CORS(APP)
 SCHEMA = graphene.Schema(query=Query, mutation=Mutation)
 
-
-class SecureGraphQL(GraphQLView):
-
-    @jwt_required
-    def dispatch_request(self, *args, **kwargs):
-        return super(SecureGraphQL, self).dispatch_request(*args, **kwargs)
-
 APP.add_url_rule(
     '/graphql',
     view_func=GraphQLView.as_view('graphql', schema=SCHEMA, graphiql=True)

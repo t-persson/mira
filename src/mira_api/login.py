@@ -14,6 +14,11 @@ class LoginAPI(MethodView):
             return jsonify({"msg": "Missing JSON in request."})
         post_data = request.get_json()
 
+        if post_data.get("username") is None:
+            return jsonify({"msg": "Missing 'username' in JSON."})
+        if post_data.get("password") is None:
+            return jsonify({"msg": "Missing 'password' in JSON."})
+
         try:
             user = User.query.filter_by(
                 email=post_data.get("email")
@@ -32,8 +37,9 @@ class LoginAPI(MethodView):
                     "status": "failed",
                     "message": "Username or password incorrect."
                 }
-                return make_response(jsonify(response_object)), 404
+                return make_response(jsonify(response_object)), 400
         except Exception as exception:
+            # TODO: Log this event in server logs.
             response_object = {
                 "status": "failed",
                 "message": "Try again."

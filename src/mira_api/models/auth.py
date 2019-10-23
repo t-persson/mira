@@ -5,10 +5,8 @@ from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from ..database import Base
 
 
-
 class User(Base):
     __tablename__ = "user"
-
 
     id = Column('id', Integer, primary_key=True, autoincrement=True)
     email = Column('email', String(255), unique=True, nullable=False)
