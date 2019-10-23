@@ -39,10 +39,10 @@ APP.add_url_rule(
 @jwt_refresh_token_required
 def refresh():
     current_user = get_jwt_identity()
-    ret = {
+    response_object = {
         "access_token": create_access_token(identity=current_user)
     }
-    return jsonify(ret), 200
+    return jsonify(response_object), 200
 
 
 @APP.teardown_appcontext

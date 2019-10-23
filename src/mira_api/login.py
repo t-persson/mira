@@ -11,13 +11,13 @@ class LoginAPI(MethodView):
 
     def post(self):
         if not request.is_json:
-            return make_response(jsonify({"msg": "Missing JSON in request."}), 400)
+            return jsonify({"msg": "Missing JSON in request."}), 400
         post_data = request.get_json()
 
         if post_data.get("email") is None:
-            return make_response(jsonify({"msg": "Missing 'email' in JSON."}), 400)
+            return jsonify({"msg": "Missing 'email' in JSON."}), 400
         if post_data.get("password") is None:
-            return make_response(jsonify({"msg": "Missing 'password' in JSON."}), 400)
+            return jsonify({"msg": "Missing 'password' in JSON."}), 400
 
         try:
             user = User.query.filter_by(
