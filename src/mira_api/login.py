@@ -1,3 +1,4 @@
+from datetime import timedelta
 import bcrypt
 from flask import make_response, jsonify, request
 from flask.views import MethodView
@@ -13,7 +14,6 @@ class LoginAPI(MethodView):
         if not request.is_json:
             return jsonify({"msg": "Missing JSON in request."}), 400
         post_data = request.get_json()
-
         if post_data.get("email") is None:
             return jsonify({"msg": "Missing 'email' in JSON."}), 400
         if post_data.get("password") is None:
@@ -25,7 +25,7 @@ class LoginAPI(MethodView):
             ).first()
             if user and bcrypt.checkpw(post_data.get("password").encode("UTF-8"),
                                        user.password):
-                access_token = create_access_token(identity=user.email)
+                access_token = create_access_token(identity=user.email, expires_delta=timedelta(days=0, seconds=5))
                 refresh_token = create_refresh_token(identity=user.email)
                 response_object = {
                     "access_token": access_token,

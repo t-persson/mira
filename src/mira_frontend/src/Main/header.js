@@ -6,15 +6,39 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import Button from '@material-ui/core/Button';
 
 import useStyles from "./styles"
 
 import routes from "../Lib/routes"
+import {useAuth} from "../Lib/auth_provider";
+
+
+function LoginButton(className) {
+    return (
+        <Link variant="button" color="primary" href={reverse(routes.login)} className={className}>
+        Login
+        </Link>
+    )
+}
+
+function LogoutButton(className) {
+    return (
+        <Link variant="button" color="primary" href={reverse(routes.logout)} className={className}>
+        Logout
+        </Link>
+    )
+}
 
 
 export default function Header() {
     const classes = useStyles();
+    const {data} = useAuth();
+    let button;
+    if (data.isLoggedIn) {
+      button = LogoutButton(classes.link)
+    } else {
+      button = LoginButton(classes.link)
+    }
     return (
         <React.Fragment>
             <CssBaseline />
@@ -39,9 +63,7 @@ export default function Header() {
                         Support
                         </Link>
                     </nav>
-                    <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                    Login
-                    </Button>
+                    { button}
                 </Toolbar>
             </AppBar>
         </React.Fragment>
