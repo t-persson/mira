@@ -33,7 +33,7 @@ Install all requirements
 .. code-block::
 
  pip install "pyscaffold>=3.1a0,<3.2a0"
- pip install graphene==2.1.8 graphene-sqlalchemy==2.2.2 Flask==1.1.1 Flask-GraphQL==2.0.0 SQLAlchemy==1.3.8 flask-cors==3.0.8
+ pip install graphene==2.1.8 graphene-sqlalchemy==2.2.2 Flask==1.1.1 Flask-GraphQL==2.0.0 SQLAlchemy==1.3.8 flask-cors==3.0.8 bcrypt==3.1.7 flask-jwt-extended==3.24.1
 
 Initialize database
 
