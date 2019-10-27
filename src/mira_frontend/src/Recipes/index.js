@@ -36,7 +36,9 @@ function RecipeList() {
     const classes = useStyles();
     const { loading, error, data } = useQuery(RECIPE_LIST);
     if (loading) return <p>Loading...</p>;
-    if (error) return <p> Error :( </p>;
+    if (error) {
+      return <p> Error :( </p>;
+		}
 
     return (
         <main>

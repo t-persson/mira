@@ -41,7 +41,7 @@ APP.add_url_rule(
 def refresh():
     current_user = get_jwt_identity()
     response_object = {
-        "access_token": create_access_token(identity=current_user, expires_delta=timedelta(days=0, seconds=5))
+        "access_token": create_access_token(identity=current_user, expires_delta=timedelta(days=0, seconds=60))
     }
     return jsonify(response_object), 200
 
