@@ -25,7 +25,7 @@ class LoginAPI(MethodView):
             ).first()
             if user and bcrypt.checkpw(post_data.get("password").encode("UTF-8"),
                                        user.password):
-                access_token = create_access_token(identity=user.email, expires_delta=timedelta(days=0, seconds=5))
+                access_token = create_access_token(identity=user.email, expires_delta=timedelta(days=0, seconds=60))
                 refresh_token = create_refresh_token(identity=user.email)
                 response_object = {
                     "access_token": access_token,

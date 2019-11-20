@@ -2,20 +2,24 @@ import React, {useState} from 'react'
 import axios from 'axios';
 import routes from "../Lib/routes";
 
-const AuthContext = React.createContext()
 
-function checkLoggedIn() {
-  if (localStorage.getItem("refreshToken") && localStorage.getItem("accessToken")) {
-    return true;
-  } else {
-    return false
-  }
-}
+import {
+	checkLoggedIn,
+	getAccessToken,
+	getRefreshToken,
+	setAccessToken,
+	setRefreshToken,
+	deleteAccessToken,
+	deleteRefreshToken
+} from "./token";
+import { accessHeader, refreshHeader } from "./headers";
+
+const AuthContext = React.createContext()
 
 function AuthProvider(props) {
     const [data, setData] = useState({
-        accessToken: localStorage.getItem("accessToken"),
-        refreshToken: localStorage.getItem("refreshToken"),
+        accessToken: getAccessToken(),
+        refreshToken: getRefreshToken(),
         isLoggedIn: checkLoggedIn(),
         errorMsg: "",
         statusCode: null,
@@ -33,7 +37,7 @@ function AuthProvider(props) {
       };
       axios.post(routes.graphql_refresh, {}, {
        validateStatus: null,
-       headers: refreshHeader()
+       headers: {Authorization: refreshHeader()}
       }).then(result => {
          defaultData.statusCode = result.status;
          if (result.status === 200) {
@@ -66,9 +70,8 @@ function AuthProvider(props) {
             defaultData.refreshToken = result.data.refresh_token;
             defaultData.isLoggedIn = true;
 
-            localStorage.setItem("refreshToken", result.data.refresh_token);  // DONT USE LOCAL STORAGE.
-            localStorage.setItem("accessToken", result.data.access_token);  // DONT USE LOCAL STORAGE.
-
+            setAccessToken(result.data.access_token);
+					  setRefreshToken(result.data.refresh_token);
             setData(defaultData);
         } else {
             defaultData.errorMsg = result.data.message;
@@ -78,14 +81,8 @@ function AuthProvider(props) {
     }
     const register = () => {}
     const logout = () => {
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("accessToken");
-    }
-    const accessHeader = () => {
-      return {Authorization: 'Bearer ' + data.accessToken };
-    }
-    const refreshHeader = () => {
-      return {Authorization: 'Bearer ' + data.refreshToken };
+      deleteRefreshToken();
+      deleteAccessToken();
     }
     const userInfo = () => {
       let defaultData = {
@@ -118,7 +115,7 @@ function AuthProvider(props) {
     }
 
     return (
-        <AuthContext.Provider value={{data, login, logout, register}} {...props} />
+        <AuthContext.Provider value={{data, login, logout, register, accessHeader}} {...props} />
     )
 }
 
