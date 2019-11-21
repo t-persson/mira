@@ -12,7 +12,7 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token, get_jwt_identity,
     create_refresh_token, jwt_refresh_token_required
 )
-from .login import LoginAPI, Status
+from .login import LoginAPI, Status, RegisterAPI
 
 SECRET_KEY = "\xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0"
 
@@ -29,6 +29,10 @@ APP.add_url_rule(
 APP.add_url_rule(
     '/login',
     view_func=LoginAPI.as_view("login")
+)
+APP.add_url_rule(
+    '/register',
+    view_func=RegisterAPI.as_view("register")
 )
 APP.add_url_rule(
     '/status',

@@ -69,6 +69,7 @@ function AuthProvider(props) {
             defaultData.accessToken = result.data.access_token;
             defaultData.refreshToken = result.data.refresh_token;
             defaultData.isLoggedIn = true;
+						defaultData.userInfo = email;
 
             setAccessToken(result.data.access_token);
 					  setRefreshToken(result.data.refresh_token);
@@ -79,7 +80,31 @@ function AuthProvider(props) {
         }
       })
     }
-    const register = () => {}
+
+    const register = (email, password) => { 
+			let defaultData = {
+        accessToken: "",
+        refreshToken: "",
+        isLoggedIn: false,
+        errorMsg: "",
+        statusCode: null,
+        userInfo: null
+      };
+
+			axios.post(routes.graphql_register, {
+				email: email,
+				password: password
+			}, {
+				validateStatus: null
+			}).then(result => {
+				if (result.status === 200) {
+					login(email, password)
+				} else {
+					defaultData.errorMsg = result.data.message;
+					setData(defaultData)
+				} 
+			})
+		}
     const logout = () => {
       deleteRefreshToken();
       deleteAccessToken();

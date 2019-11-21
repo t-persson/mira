@@ -6,6 +6,8 @@ from mira_api.models.auth import User
 from flask_jwt_extended import (
     create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 )
+from .database import db_session
+from password_strength import PasswordPolicy
 
 
 class LoginAPI(MethodView):
@@ -63,3 +65,54 @@ class Status(MethodView):
             }
         }
         return jsonify(response_object), 200
+
+class RegisterAPI(MethodView):
+
+    def post(self):
+        if not request.is_json:
+            return jsonify({"msg": "Missing JSON in request."}), 400
+        post_data = request.get_json()
+        if post_data.get("email") is None:
+            return jsonify({"msg": "Missing 'email' in JSON."}), 400
+        if post_data.get("password") is None:
+            return jsonify({"msg": "Missing 'password' in JSON."}), 400
+
+        password_policy = PasswordPolicy.from_names(
+            length=8,
+            uppercase=1,
+            numbers=1,
+            special=1,
+            nonletters=2
+        )
+
+        try:
+            email = post_data.get("email")
+            password = post_data.get("password")
+            policy_check = password_policy.test(password)
+            if "@" not in email or len(email.split("@")) > 1:
+                status_code = 400
+                response_object = {
+                    "status": "failure",
+                    "message": "Email is not valid"
+                }
+            elif policy_check != [] and len(password) <= 16:
+                status_code = 400
+                response_object =  {
+                    "status": "failure", 
+                    "message": "Does not follow the password policy"
+                }
+            else:
+                user_to_add = User(email, password, False)
+                db_session.add(user_to_add)
+                db_session.commit()
+                status_code = 200
+                response_object =  {"status": "success", "data": {}}
+        except Exception as exception:
+            print(exception)
+            response_object =  {
+                "status": "failure", 
+                "message": "Unable to add user"}
+            status_code = 500
+
+        return jsonify(response_object), status_code
+

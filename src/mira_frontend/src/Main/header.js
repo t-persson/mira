@@ -21,10 +21,11 @@ function LoginButton(className) {
     )
 }
 
-function LogoutButton(className) {
+function LogoutButton(className, data) {
     return (
         <Link variant="button" color="primary" href={reverse(routes.logout)} className={className}>
         Logout
+				<p>Logged in as: {data.userInfo}</p>
         </Link>
     )
 }
@@ -35,7 +36,7 @@ export default function Header() {
     const {data} = useAuth();
     let button;
     if (data.isLoggedIn) {
-      button = LogoutButton(classes.link)
+      button = LogoutButton(classes.link, data)
     } else {
       button = LoginButton(classes.link)
     }

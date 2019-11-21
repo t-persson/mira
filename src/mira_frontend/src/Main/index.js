@@ -13,6 +13,7 @@ import Login from '../Login'
 import Logout from '../Login/logout'
 import routes from "../Lib/routes"
 import Header from "./header"
+import Register from "../Register"
 
 
 function PrivateRoute({ component: Component, ...rest }) {
@@ -48,6 +49,7 @@ function Main(props) {
               <Route exact path={routes.api} component={Api} />
               <Route exact path={routes.login} component={Login} />
               <Route exact path={routes.logout} component={Logout} />
+              <Route exact path={routes.register} component={Register} />
             </Switch>
            </ApolloProvider>
         </Router>
