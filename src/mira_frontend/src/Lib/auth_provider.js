@@ -106,8 +106,18 @@ function AuthProvider(props) {
 			})
 		}
     const logout = () => {
+      let defaultData = {
+        accessToken: "",
+        refreshToken: "",
+        isLoggedIn: false,
+        errorMsg: "",
+        statusCode: null,
+        userInfo: null
+      };
+
       deleteRefreshToken();
       deleteAccessToken();
+      setData(defaultData);
     }
     const userInfo = () => {
       let defaultData = {
