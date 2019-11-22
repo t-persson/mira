@@ -4,8 +4,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -47,19 +45,20 @@ const Error = styled.div`
   background-color: red;
 `;
 
-export default function SignIn(props) {
+export default function RegisterUser(props) {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data, login } = useAuth();
+	const [password2, setPassword2] = useState("");
+  const { data, register } = useAuth();
 
   function validateForm() {
-    return email.length > 0 && password.length > 0;
+    return email.length > 0 && password === password2 && password.length < 8 && password > 17;
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    login(email, password);
+    register(email, password);
   }
 
   if (data.isLoggedIn) {
@@ -74,7 +73,7 @@ export default function SignIn(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Register
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <TextField
@@ -100,13 +99,23 @@ export default function SignIn(props) {
             type="password"
             id="password"
             value={password}
-            autoComplete="current-password"
+            autoComplete="no"
             onChange={e => setPassword(e.target.value)}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+					<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password2"
+            label="Repeat password"
+            type="password"
+            id="password2"
+            value={password2}
+            autoComplete="no"
+            onChange={e => setPassword2(e.target.value)}
           />
+
           <Button
             type="submit"
             fullWidth
@@ -115,20 +124,15 @@ export default function SignIn(props) {
             className={classes.submit}
             disabled={!validateForm()}
           >
-            Sign In
+            Register
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
+              <Link href={routes.login} variant="body2">
+                Back to login page
               </Link>
             </Grid>
-            <Grid item>
-              <Link href={routes.register} variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+           </Grid>
         </form>
          { data.errorMsg &&<Error> {data.errorMsg} </Error> }
       </div>
