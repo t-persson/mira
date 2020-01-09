@@ -47,18 +47,19 @@ const Error = styled.div`
 
 export default function RegisterUser(props) {
   const classes = useStyles();
+	const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 	const [password2, setPassword2] = useState("");
   const { data, register } = useAuth();
 
   function validateForm() {
-    return email.length > 0 && password === password2 && password.length < 8 && password > 17;
+    return email.length > 0 && password === password2 && password.length > 8 && password.length < 17 && username.length > 0;
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    register(email, password);
+    register(username, email, password);
   }
 
   if (data.isLoggedIn) {
@@ -76,6 +77,19 @@ export default function RegisterUser(props) {
           Register
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} noValidate>
+					<TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="no"
+            autoFocus
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+          />
           <TextField
             variant="outlined"
             margin="normal"

@@ -69,7 +69,6 @@ function AuthProvider(props) {
             defaultData.accessToken = result.data.access_token;
             defaultData.refreshToken = result.data.refresh_token;
             defaultData.isLoggedIn = true;
-						defaultData.userInfo = email;
 
             setAccessToken(result.data.access_token);
 					  setRefreshToken(result.data.refresh_token);
@@ -81,7 +80,7 @@ function AuthProvider(props) {
       })
     }
 
-    const register = (email, password) => { 
+    const register = (username, email, password) => { 
 			let defaultData = {
         accessToken: "",
         refreshToken: "",
@@ -92,6 +91,7 @@ function AuthProvider(props) {
       };
 
 			axios.post(routes.graphql_register, {
+				username: username,
 				email: email,
 				password: password
 			}, {
@@ -130,7 +130,7 @@ function AuthProvider(props) {
       };
       axios.get(routes.graphql_status, {
        validateStatus: null,
-       headers: accessHeader()
+       headers: {Authorization: accessHeader()}
       }).then(result => {
          defaultData.statusCode = result.status;
          if (result.status === 200) {

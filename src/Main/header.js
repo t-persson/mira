@@ -22,10 +22,16 @@ function LoginButton(className) {
 }
 
 function LogoutButton(className, data) {
+	  let username;
+		if (data.userInfo !== null) {
+			username = data.userInfo.username;
+		} else { 
+			username = "";
+		}
     return (
         <Link variant="button" color="primary" href={reverse(routes.logout)} className={className}>
         Logout
-				<p>Logged in as: {data.userInfo}</p>
+				<p>Logged in as: {username}</p>
         </Link>
     )
 }
