@@ -1,0 +1,27 @@
+"""Mira 2020."""
+import os
+from flask import Flask
+from mira import auth
+from mira import recipes
+
+def create_app(test_config=None):
+    """Create application."""
+
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(SECRET_KEY='dev')
+
+    if test_config is None:
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        app.config.from_mapping(test_config)
+
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+
+    app.register_blueprint(auth.BLUEPRINT)
+    app.register_blueprint(recipes.BLUEPRINT)
+    app.add_url_rule('/', endpoint='index')
+
+    return app
