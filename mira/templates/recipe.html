@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	</h3>Recipe</h3>
+{% endblock %}
+
+{% block content %}
+<div class="recipe">
+	<p><a href="{{ url_for('index') }}">Back</a></p>
+	<h3>{{ recipe.name }}</h3>
+	<p>Description: </br> {{ recipe.description }}</p>
+	<p>Instructions: </br>{{ recipe.steps }}</p>
+	<p>Author: {{ recipe.author }}</p>
+</div>
+{% endblock %}
