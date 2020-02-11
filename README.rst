@@ -28,7 +28,7 @@ Contribute
 Support
 =======
 
-Mira is currently divided up into two parts. One flask based python application (babylon) and one nodejs application (mira).
+Mira is currently divided up into two parts. Both uses the Flask framework as base.
 In order to start everything up you first need to:
 
 1. Start the API server.
@@ -42,21 +42,37 @@ Start the API Server
 Start the frontend
 ------------------
 
-First make sure nodejs & yarn is installed
+Create a virtual environment and activate it
 
 .. code-block::
 
-    sudo apt install node
-    sudo npm install yarn -g
+    virtualenv -p python3 venv
+    source venv/bin/activate
 
 Install all requirements
 
 .. code-block::
 
-    yarn install
+    pip install -e .
 
 Start the webserver
 
 .. code-block::
 
-    yarn start
+    export FLASK_APP=mira
+    export FLASK_ENV=development
+    flask run --host=0.0.0.0 --port=8080
+
+Run tests
+---------
+
+All tests are located in the tests folder. All new functions should have at least one tests case.
+
+Use pytest to run tests
+
+.. code-block::
+   
+   pytest
+   coverage run -m pytest
+   coverage report
+   coverage html
