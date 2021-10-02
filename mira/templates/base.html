@@ -1,41 +1,41 @@
 <!DOCTYPE html />
 <html>
 <head>
-<title>Recepticon</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <title>Recepticon</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
 </head>
 
-<body class="bg-light">
-	<div class="container">
-		<div class="col-md-12 bg-white">
-			<h1>Recepticon</h1>
-			{% block header %}{% endblock %}
-			{% if g.user %}
-				<p class="text-right">Logged in as: {{ g.user['username'] }}</p>
-			{% endif %}
-			</div>
-			
-			<div class="col-md-12 bg-light">
-				<ul class="nav justify-content-end">
-				{% if g.user %}
-					<li class="nav-item">
-							<a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out    </a>
-					</li>
-			  {% else %}
-					<li class="nav-item">
-							<a class="nav-link" href="{{ url_for('auth.login') }}">Log Out    </a>
-					</li>
-				{% endif %}
+<body>
+<div class="container">
+  <div class="col-auto">
+    <h1>Recepticon</h1>
+      {% block header %}{% endblock %}
+        {% if g.user %}
+          <p class="text-right">Logged in as: {{ g.user['username'] }}</p>
+        {% endif %}
+  </div>
 
-				<div class="col-md-12">
-					{% block content %}{% endblock %}
-				</div>
+  <div class="col-auto">
+    <ul class="nav justify-content-end">
+      {% if g.user %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
 
-				<div class="col-md-12">
-					<hr>
-					<p class="text-center">Mira</p>
-				</div>
-	</div>
+  <div class="col-auto">
+    {% block content %}{% endblock %}
+  </div>
+
+  <div class="col-auto">
+    <hr />
+    <p class="text-center">Mira 2021</p>
+  </div>
+</div>
 </body>
 </html>
