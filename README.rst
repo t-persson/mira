@@ -1,5 +1,5 @@
 ====
-mira
+Mira
 ====
 
 Frontend for the Babylon API backend, designed for displaying recipes.
@@ -7,8 +7,11 @@ Frontend for the Babylon API backend, designed for displaying recipes.
 Description
 ===========
 
-Having problems creating a new weekly menu? This website will assist in this endeavour by creating a weekly menu based on your preferences.
-You can also store ingredients from your fridge and have the tool generate what you can make from your current ingredients.
+Having problems creating a new weekly menu? Want some inspiration?
+
+This website will assist in this endeavour by creating a weekly menu based on your preferences.
+You can also store ingredients from your fridge and have the tool generate what you can make from
+your current ingredients.
 
 Features
 ========
@@ -42,20 +45,20 @@ Start the API Server
 Start the frontend
 ------------------
 
-Create a virtual environment and activate it
+Create a virtual environment and activate it:
 
 .. code-block::
 
     virtualenv -p python3 venv
     source venv/bin/activate
 
-Install all requirements
+Install all requirements:
 
 .. code-block::
 
     pip install -e .
 
-Start the webserver
+Start the webserver:
 
 .. code-block::
 
@@ -67,8 +70,7 @@ Run tests
 ---------
 
 All tests are located in the tests folder. All new functions should have at least one tests case.
-
-Use pytest to run tests
+Use pytest to run tests:
 
 .. code-block::
    
