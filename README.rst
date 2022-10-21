@@ -63,7 +63,7 @@ Start the webserver:
 .. code-block::
 
     export FLASK_APP=mira
-    export FLASK_ENV=development
+    export FLASK_DEBUG=True
     flask run --host=0.0.0.0 --port=8080
 
 Run tests
