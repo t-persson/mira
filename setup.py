@@ -9,6 +9,6 @@ setup(
     zip_safe=False,
     install_requires=[
         'gql==0.3.0',
-        'flask==1.1.1',
+        'flask==2.2.2',
     ],
 )
